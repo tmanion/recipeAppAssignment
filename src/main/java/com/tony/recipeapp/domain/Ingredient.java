@@ -3,6 +3,7 @@ package com.tony.recipeapp.domain;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +23,8 @@ import javax.persistence.OneToOne;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne private Recipe recipe;
-    @OneToOne private UnitOfMeasure uom;
+    @OneToOne(fetch = FetchType.EAGER)
+    private UnitOfMeasure uom;
 
     /**
      * Creates a new Ingredient object.

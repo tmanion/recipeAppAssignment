@@ -12,15 +12,24 @@ import javax.persistence.Id;
  * @version  $Revision$, $Date$
  */
 @Entity public class UnitOfMeasure {
+    private String description;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String uom;
 
     /**
      * Creates a new UnitOfMeasure object.
      */
     public UnitOfMeasure() {
+    }
+
+    /**
+     * Returns the description value.
+     *
+     * @return  description value.
+     */
+    public String getDescription() {
+        return description;
     }
 
     /**
@@ -33,12 +42,12 @@ import javax.persistence.Id;
     }
 
     /**
-     * Returns the uom value.
+     * Sets the description value.
      *
-     * @return  uom value.
+     * @param  description
      */
-    public String getUom() {
-        return uom;
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
     /**
@@ -48,14 +57,5 @@ import javax.persistence.Id;
      */
     public void setId(final Long id) {
         this.id = id;
-    }
-
-    /**
-     * Sets the uom value.
-     *
-     * @param  uom
-     */
-    public void setUom(final String uom) {
-        this.uom = uom;
     }
 }
