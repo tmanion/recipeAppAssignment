@@ -4,6 +4,8 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,12 +22,13 @@ import javax.persistence.OneToOne;
 @Entity public class Recipe {
     private Integer cookTime;
     private String description;
+
+    @Enumerated(value = EnumType.STRING)
+    private Difficulty difficulty;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    // todo add
-    // private Difficulty difficulty;
 
     @Lob private Byte[] image;
     @OneToMany(
@@ -62,6 +65,15 @@ import javax.persistence.OneToOne;
      */
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * Returns the difficulty value.
+     *
+     * @return  difficulty value.
+     */
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
 
     /**
@@ -152,6 +164,15 @@ import javax.persistence.OneToOne;
      */
     public void setDescription(final String description) {
         this.description = description;
+    }
+
+    /**
+     * Sets the difficulty value.
+     *
+     * @param  difficulty
+     */
+    public void setDifficulty(final Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     /**
