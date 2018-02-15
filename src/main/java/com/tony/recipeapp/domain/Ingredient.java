@@ -34,6 +34,21 @@ import javax.persistence.OneToOne;
     }
 
     /**
+     * Creates a new Ingredient object.
+     *
+     * @param  description
+     * @param  amount
+     * @param  uom
+     * @param  recipe
+     */
+    public Ingredient(final String description, final BigDecimal amount, final UnitOfMeasure uom, final Recipe recipe) {
+        this.description = description;
+        this.amount = amount;
+        this.uom = uom;
+        this.recipe = recipe;
+    }
+
+    /**
      * Returns the amount value.
      *
      * @return  amount value.

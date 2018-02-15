@@ -1,5 +1,6 @@
 package com.tony.recipeapp.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -29,23 +30,28 @@ import javax.persistence.OneToOne;
         joinColumns = @JoinColumn(name = "recipe_id"),
         inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private Set<Category> categories;
+    private Set<Category> categories = new HashSet<>();
     private Integer cookTime;
+
     private String description;
 
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
+
+    @Lob private String directions;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Lob private Byte[] image;
+
     @OneToMany(
         cascade = CascadeType.ALL,
         mappedBy = "recipe"
-    ) // mappedBy refers to property name in ingredient object
-    private Set<Ingredient> ingredients;
+    )
+    private Set<Ingredient> ingredients = new HashSet<>();
+
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
     private Integer prepTime;
@@ -93,6 +99,15 @@ import javax.persistence.OneToOne;
      */
     public Difficulty getDifficulty() {
         return difficulty;
+    }
+
+    /**
+     * Returns the directions value.
+     *
+     * @return  directions value.
+     */
+    public String getDirections() {
+        return directions;
     }
 
     /**
@@ -201,6 +216,15 @@ import javax.persistence.OneToOne;
      */
     public void setDifficulty(final Difficulty difficulty) {
         this.difficulty = difficulty;
+    }
+
+    /**
+     * Sets the directions value.
+     *
+     * @param  directions
+     */
+    public void setDirections(final String directions) {
+        this.directions = directions;
     }
 
     /**
