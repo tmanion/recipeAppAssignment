@@ -1,14 +1,7 @@
 package com.tony.recipeapp.domain;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 
 /**
@@ -16,125 +9,74 @@ import javax.persistence.OneToOne;
  *
  * @version  $Revision$, $Date$
  */
-@Entity public class Ingredient {
-    private BigDecimal amount;
-    private String description;
+@Entity
+public class Ingredient {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne private Recipe recipe;
+    private String description;
+    private BigDecimal amount;
+
     @OneToOne(fetch = FetchType.EAGER)
     private UnitOfMeasure uom;
 
-    /**
-     * Creates a new Ingredient object.
-     */
+    @ManyToOne
+    private Recipe recipe;
 
     public Ingredient() {
     }
 
-    /**
-     * Creates a new Ingredient object.
-     *
-     * @param  description
-     * @param  amount
-     * @param  uom
-     * @param  recipe
-     */
-    public Ingredient(final String description, final BigDecimal amount, final UnitOfMeasure uom, final Recipe recipe) {
+    public Ingredient(String description, BigDecimal amount, UnitOfMeasure uom) {
+        this.description = description;
+        this.amount = amount;
+        this.uom = uom;
+    }
+
+    public Ingredient(String description, BigDecimal amount, UnitOfMeasure uom, Recipe recipe) {
         this.description = description;
         this.amount = amount;
         this.uom = uom;
         this.recipe = recipe;
     }
 
-    /**
-     * Returns the amount value.
-     *
-     * @return  amount value.
-     */
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    /**
-     * Returns the description value.
-     *
-     * @return  description value.
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Returns the id value.
-     *
-     * @return  id value.
-     */
     public Long getId() {
         return id;
     }
 
-    /**
-     * Returns the recipe value.
-     *
-     * @return  recipe value.
-     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
     public Recipe getRecipe() {
         return recipe;
     }
 
-    /**
-     * Returns the uom value.
-     *
-     * @return  uom value.
-     */
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
     public UnitOfMeasure getUom() {
         return uom;
     }
 
-    /**
-     * Sets the amount value.
-     *
-     * @param  amount
-     */
-    public void setAmount(final BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    /**
-     * Sets the description value.
-     *
-     * @param  description
-     */
-    public void setDescription(final String description) {
-        this.description = description;
-    }
-
-    /**
-     * Sets the id value.
-     *
-     * @param  id
-     */
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
-    /**
-     * Sets the recipe value.
-     *
-     * @param  recipe
-     */
-    public void setRecipe(final Recipe recipe) {
-        this.recipe = recipe;
-    }
-
-    /**
-     * Sets the uom value.
-     *
-     * @param  uom
-     */
-    public void setUom(final UnitOfMeasure uom) {
+    public void setUom(UnitOfMeasure uom) {
         this.uom = uom;
     }
 }
