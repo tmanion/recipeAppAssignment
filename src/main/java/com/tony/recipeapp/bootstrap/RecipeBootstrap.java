@@ -1,25 +1,18 @@
 package com.tony.recipeapp.bootstrap;
 
-import com.tony.recipeapp.domain.Category;
-import com.tony.recipeapp.domain.Difficulty;
-import com.tony.recipeapp.domain.Ingredient;
-import com.tony.recipeapp.domain.Notes;
-import com.tony.recipeapp.domain.Recipe;
-import com.tony.recipeapp.domain.UnitOfMeasure;
+import com.tony.recipeapp.domain.*;
 import com.tony.recipeapp.repositories.CategoryRepository;
 import com.tony.recipeapp.repositories.RecipeRepository;
 import com.tony.recipeapp.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
-
-import org.springframework.stereotype.Component;
 
 
 /**
@@ -27,6 +20,7 @@ import org.springframework.stereotype.Component;
  *
  * @version  $Revision$, $Date$
  */
+@Slf4j
 @Component public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
     private final CategoryRepository categoryRepository;
     private final RecipeRepository recipeRepository;
@@ -48,6 +42,7 @@ import org.springframework.stereotype.Component;
 
     @Override public void onApplicationEvent(final ContextRefreshedEvent contextRefreshedEvent) {
         recipeRepository.saveAll(getRecipes());
+        log.debug("Loading Bootstrap Data");
     }
 
     /**

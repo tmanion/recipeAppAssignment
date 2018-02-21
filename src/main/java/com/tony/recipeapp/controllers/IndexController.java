@@ -1,11 +1,9 @@
 package com.tony.recipeapp.controllers;
 
 import com.tony.recipeapp.service.RecipeService;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @version  $Revision$, $Date$
  */
+@Slf4j
 @Controller public class IndexController {
     private final RecipeService recipeService;
 
@@ -35,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
      */
     @RequestMapping({ "", "/", "/index" })
     public String getIndexPage(final Model model) {
+        log.debug("Getting Index Page");
         model.addAttribute("recipes", recipeService.getRecipes());
 
         return "index";
