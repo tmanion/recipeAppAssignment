@@ -17,4 +17,6 @@ public interface RecipeService {
      * @return  recipes value.
      */
     Set<Recipe> getRecipes();
+
+    Recipe findById(Long l);
 }
