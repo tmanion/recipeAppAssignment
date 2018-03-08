@@ -1,5 +1,6 @@
 package com.tony.recipeapp.service;
 
+import com.tony.recipeapp.commands.RecipeCommand;
 import com.tony.recipeapp.domain.Recipe;
 
 import java.util.Set;
@@ -11,12 +12,10 @@ import java.util.Set;
  * @version  $Revision$, $Date$
  */
 public interface RecipeService {
-    /**
-     * Returns the recipes value.
-     *
-     * @return  recipes value.
-     */
+
     Set<Recipe> getRecipes();
 
     Recipe findById(Long l);
+
+    RecipeCommand saveRecipeCommand(RecipeCommand command);
 }
