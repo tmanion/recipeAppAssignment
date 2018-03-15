@@ -1,13 +1,13 @@
 package com.tony.recipeapp.controllers;
 
+import com.tony.recipeapp.commands.IngredientCommand;
 import com.tony.recipeapp.service.IngredientService;
 import com.tony.recipeapp.service.RecipeService;
+import com.tony.recipeapp.service.UnitOfMeasureService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -16,29 +16,82 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @version  $Revision$, $Date$
  */
 @Slf4j @Controller public class IngredientController {
-    RecipeService recipeService;
     IngredientService ingredientService;
+    RecipeService recipeService;
+    UnitOfMeasureService unitOfMeasureService;
 
-    public IngredientController(RecipeService recipeService, IngredientService ingredientService) {
-        this.recipeService = recipeService;
+    public IngredientController(IngredientService ingredientService, RecipeService recipeService,
+                                UnitOfMeasureService unitOfMeasureService) {
         this.ingredientService = ingredientService;
+        this.recipeService = recipeService;
+        this.unitOfMeasureService = unitOfMeasureService;
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   recipeId
+     * @param   model
+     *
+     * @return  String
+     */
     @GetMapping
     @RequestMapping("/recipe/{recipeId}/ingredients")
-    public String listIngredients(@PathVariable String recipeId, Model model) {
+    public String listIngredients(@PathVariable final String recipeId, final Model model) {
         log.debug("Getting ingredients list for recipe id: " + recipeId);
 
-        //use command object to avoid lazy load errors in Thymeleaf.
+        // use command object to avoid lazy load errors in Thymeleaf.
         model.addAttribute("recipe", recipeService.findCommandById(Long.valueOf(recipeId)));
 
         return "recipe/ingredient/list";
     }
 
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   recipeId
+     * @param   id
+     * @param   model
+     *
+     * @return  String
+     */
     @GetMapping
     @RequestMapping("recipe/{recipeId}/ingredient/{id}/show")
-    public String showRecipeIngredient(@PathVariable String recipeId, @PathVariable String id, Model model) {
-        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId), Long.valueOf(id)));
+    public String showRecipeIngredient(@PathVariable final String recipeId, @PathVariable final String id,
+        final Model model) {
+        model.addAttribute("ingredient",
+            ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId), Long.valueOf(id)));
+
         return "recipe/ingredient/show";
+    }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param   recipeId
+     * @param   id
+     * @param   model
+     *
+     * @return  String
+     */
+    @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingredient/{id}/update")
+    public String updateRecipeIngredient(@PathVariable final String recipeId, @PathVariable final String id,
+        final Model model) {
+        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId), Long.valueOf(id)));
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+
+        return "recipe/ingredient/ingredientform";
+    }
+
+    @PostMapping
+    @RequestMapping("recipe/{recipeId}/ingredient")
+    public String saveOrUpdate(@ModelAttribute IngredientCommand command) {
+        IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command);
+
+        log.debug("saved recipe id: " + savedCommand.getRecipeId());
+        log.debug("saved ingredient id: " + savedCommand.getId());
+
+        return "redirect:/recipe/" + savedCommand.getRecipeId() + "/ingredient/" + savedCommand.getId() + "/show";
     }
 }
