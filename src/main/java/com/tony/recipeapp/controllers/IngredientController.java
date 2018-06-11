@@ -48,6 +48,15 @@ import org.springframework.web.bind.annotation.*;
         return "recipe/ingredient/list";
     }
 
+    @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingredient/{ingredientId}/delete")
+    public String deleteIngredient(@PathVariable Long recipeId, @PathVariable Long ingredientId) {
+        log.debug("deleting ingredient id: " + ingredientId);
+        ingredientService.deleteById(Long.valueOf(recipeId), Long.valueOf(ingredientId));
+
+        return "redirect:/recipe/" + recipeId + "/ingredients";
+    }
+
     /**
      * DOCUMENT ME!
      *
