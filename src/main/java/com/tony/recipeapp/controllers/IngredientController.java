@@ -1,6 +1,8 @@
 package com.tony.recipeapp.controllers;
 
 import com.tony.recipeapp.commands.IngredientCommand;
+import com.tony.recipeapp.commands.RecipeCommand;
+import com.tony.recipeapp.commands.UnitOfMeasureCommand;
 import com.tony.recipeapp.service.IngredientService;
 import com.tony.recipeapp.service.RecipeService;
 import com.tony.recipeapp.service.UnitOfMeasureService;
@@ -93,5 +95,23 @@ import org.springframework.web.bind.annotation.*;
         log.debug("saved ingredient id: " + savedCommand.getId());
 
         return "redirect:/recipe/" + savedCommand.getRecipeId() + "/ingredient/" + savedCommand.getId() + "/show";
+    }
+
+    @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingredient/new")
+    public String newRecipe(@PathVariable String recipeId, Model model) {
+        //Make sure id value is good
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+
+        //todo: raise exception if recipeCommand is null
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+        model.addAttribute("ingredient", ingredientCommand);
+        //init uom
+        ingredientCommand.setUom(new UnitOfMeasureCommand());
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+
+        return "recipe/ingredient/ingredientform";
     }
 }
