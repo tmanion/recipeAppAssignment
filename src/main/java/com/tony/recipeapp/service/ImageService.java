@@ -12,8 +12,8 @@ public interface ImageService {
     /**
      * DOCUMENT ME!
      *
-     * @param  id
+     * @param  recipeId  id
      * @param  file
      */
-    void saveImageFile(Long id, MultipartFile file);
+    void saveImageFile(Long recipeId, MultipartFile file);
 }
