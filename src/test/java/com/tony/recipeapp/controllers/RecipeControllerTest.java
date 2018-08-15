@@ -2,6 +2,7 @@ package com.tony.recipeapp.controllers;
 
 import com.tony.recipeapp.commands.RecipeCommand;
 import com.tony.recipeapp.domain.Recipe;
+import com.tony.recipeapp.exceptions.NotFoundException;
 import com.tony.recipeapp.service.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -95,6 +96,16 @@ public class RecipeControllerTest {
                 .andExpect(view().name("redirect:/"));
 
         verify(recipeService, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    public void testGetRecipeNotFound() throws Exception {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe/1/show")).andExpect(status().isNotFound());
     }
 
 }
