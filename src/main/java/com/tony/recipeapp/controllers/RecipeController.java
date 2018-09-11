@@ -65,12 +65,29 @@ public class RecipeController {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
-    public ModelAndView handleNotFound() {
+    public ModelAndView handleNotFound(Exception exception) {
         log.error("Handling not found exception");
+        log.error(exception.getMessage());
 
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("exception", exception);
+
 
         modelAndView.setViewName("404error"); //matches name of html template file
+
+        return modelAndView;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handelNumberFormatException(Exception exception) {
+        log.error("Handel number format exception");
+        log.error(exception.getMessage());
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("exception", exception);
+
+        modelAndView.setViewName("400error");
 
         return modelAndView;
     }
